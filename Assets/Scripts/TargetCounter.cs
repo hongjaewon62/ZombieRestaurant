@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,13 +6,16 @@ using UnityEngine;
 public class TargetCounter : MonoBehaviour
 {
     public bool isActive;
+    public bool isReady;
 
-    [SerializeField]
-    private BoxCollider destinationCollider;
+    public event Action<TargetCounter> OnReadyChanged; // 이벤트 선언
+
+    private GuestController guest;
+
 
     private void Awake()
     {
-        destinationCollider = GetComponent<BoxCollider>();
+
     }
 
     private void OnTriggerEnter(Collider other)
@@ -22,5 +26,18 @@ public class TargetCounter : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         isActive = false;
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if(other.CompareTag("Guest") && isActive)
+        {
+            guest = other.GetComponent<GuestController>();
+            if (!isReady && guest.isReady)
+            {
+                isReady = true;
+                OnReadyChanged?.Invoke(this);       // 이벤트 호출
+            }
+        }
     }
 }

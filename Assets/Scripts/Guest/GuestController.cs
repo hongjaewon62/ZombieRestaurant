@@ -9,7 +9,9 @@ public class GuestController : MonoBehaviour
     private Animator anim;
 
     [SerializeField]
-    private float speed = 1f;       // 이동속도
+    private float moveSpeed = 1f;       // 이동속도
+
+    public bool isReady;
 
     [SerializeField]
     private GameObject[] destination;           // 목적지 배열
@@ -31,7 +33,7 @@ public class GuestController : MonoBehaviour
     }
     private void Start()
     {
-        agent.speed = speed;
+        agent.speed = moveSpeed;
         agent.SetDestination(destination[0].transform.position);
         for(int i = 1; i < destination.Length; i++)
         {
@@ -43,7 +45,7 @@ public class GuestController : MonoBehaviour
     {
         if(agent.isStopped && gameObject.transform.rotation != targetRotation)
         {
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 2f);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
             Debug.Log("실행");
         }
     }
@@ -93,10 +95,11 @@ public class GuestController : MonoBehaviour
     {
         agent.isStopped = true;                                             // 움직임 멈추기
         anim.SetBool("Idle", true);
-        yield return new WaitForSeconds(1f);                                // 1초 대기
+        yield return new WaitForSeconds(0.5f);                                // 0.5초 대기
         if (agent.isStopped)                                                // 멈췄다면 주문
         {
             orderIcon.SetActive(true);
+            isReady = true;
             // 주문
         }
 

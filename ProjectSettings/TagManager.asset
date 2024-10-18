@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Point
   - Counter
+  - End
+  - Guest
+  - Zombie
   layers:
   - Default
   - TransparentFX
