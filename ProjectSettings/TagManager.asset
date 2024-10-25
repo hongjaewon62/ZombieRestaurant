@@ -9,6 +9,8 @@ TagManager:
   - End
   - Guest
   - Zombie
+  - Cooking
+  - TargetParent
   layers:
   - Default
   - TransparentFX
