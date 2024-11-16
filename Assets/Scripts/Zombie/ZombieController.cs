@@ -153,7 +153,7 @@ public class ZombieController : MonoBehaviour
 
         Debug.Log(menuIndex +", " + firstOrder.count + ", " + firstOrder.destination);
 
-        OrderManager.instance.AddOrder(menuIndex, firstOrder.count, firstOrder.destination);
+        OrderManager.instance.AddOrder(menuIndex, firstOrder.count, firstOrder.destination, firstOrder.guest);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -230,6 +230,8 @@ public class ZombieController : MonoBehaviour
     private void GiveFood()
     {
         OrderManager.instance.FoodReceived(true);
+        isCooking = false;
+        isFood = false;
         OrderManager.instance.GetNextOrder();
     }
 

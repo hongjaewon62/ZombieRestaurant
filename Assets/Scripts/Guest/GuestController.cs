@@ -6,6 +6,7 @@ using TMPro;
 
 public class GuestController : MonoBehaviour
 {
+    private GuestController guestController;
     private NavMeshAgent agent;
     private Animator anim;
 
@@ -39,6 +40,7 @@ public class GuestController : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
+        guestController = GetComponent<GuestController>();
     }
 
     private void OnEnable()
@@ -131,7 +133,7 @@ public class GuestController : MonoBehaviour
 
             int menuIndex = Random.Range(0, OrderManager.instance.activeMenuCount);
             count = Random.Range(1, 2);                                     // 주문 개수(나중에 더 많이 구매하도록 수정)
-            OrderManager.instance.GuestOrder(menuIndex, count, destination[currentDestinationIndex].transform);
+            OrderManager.instance.GuestOrder(menuIndex, count, destination[currentDestinationIndex].transform, guestController);
             menuImage.SetActive(true);
             menuCountText.text = count.ToString();
             isReady = true;

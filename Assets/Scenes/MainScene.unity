@@ -12818,6 +12818,7 @@ MonoBehaviour:
   guest: {fileID: 1908032713390326890, guid: 35b192592ef8f054cba325a60a3d8e50, type: 3}
   maxGuest: 2
   currentGuest: 0
+  cooldown: 3
 --- !u!4 &930080686
 Transform:
   m_ObjectHideFlags: 0

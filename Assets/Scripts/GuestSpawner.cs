@@ -10,11 +10,17 @@ public class GuestSpawner : MonoBehaviour
     public int maxGuest = 1;
     public int currentGuest = 0;
 
+    [SerializeField]
     private float cooldown = 3f;
-    
+
+    private void Start()
+    {
+        StartCoroutine(SpawnGuests());
+    }
+
     private void Update()
     {
-            StartCoroutine(SpawnGuests());
+        //StartCoroutine(SpawnGuests());
     }
 
     private void SpawnObject()
@@ -25,10 +31,17 @@ public class GuestSpawner : MonoBehaviour
 
     private IEnumerator SpawnGuests()
     {
-        while (currentGuest < maxGuest)
+        while(true)
         {
-            SpawnObject();
-            yield return new WaitForSeconds(cooldown); // ÄðÅ¸ÀÓ ´ë±â
+            if(currentGuest < maxGuest)
+            {
+                SpawnObject();
+                yield return new WaitForSeconds(cooldown); // ÄðÅ¸ÀÓ ´ë±â
+            }
+            else
+            {
+                yield return null;
+            }
         }
     }
 }

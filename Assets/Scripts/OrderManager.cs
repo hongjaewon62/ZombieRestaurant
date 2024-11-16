@@ -10,11 +10,13 @@ public class OrderManager : MonoBehaviour
         public Menu foodMenu;
         public int count;
         public Transform destination;
-        public MenuOrder(Menu menu, int count, Transform destination)
+        public GuestController guest;
+        public MenuOrder(Menu menu, int count, Transform destination, GuestController guest)
         {
             this.foodMenu = menu;
             this.count = count;
             this.destination = destination;
+            this.guest = guest;
         }
     }
 
@@ -45,27 +47,27 @@ public class OrderManager : MonoBehaviour
         instance = this;
     }
 
-    public void GuestOrder(int menuIndex, int menuCount, Transform target)
+    public void GuestOrder(int menuIndex, int menuCount, Transform target, GuestController guest)
     {
         int tempIndex = menuIndex;
-        MenuOrder newOrder = new MenuOrder(foodMenu[tempIndex], menuCount, target);
+        MenuOrder newOrder = new MenuOrder(foodMenu[tempIndex], menuCount, target, guest);
 
         guestReceived = false;
         // 큐에 새로운 주문 추가
         tempOrderQueue.Enqueue(newOrder);
     }
 
-    public void AddOrder(int menuIndex, int menuCount, Transform target)      // 손님이 주문을 이걸로
+    public void AddOrder(int menuIndex, int menuCount, Transform target, GuestController guest)      // 손님이 주문을 이걸로
     {
         // 새로운 메뉴 주문 생성
-        MenuOrder newOrder = new MenuOrder(foodMenu[menuIndex], menuCount, target);
+        MenuOrder newOrder = new MenuOrder(foodMenu[menuIndex], menuCount, target, guest);
         OrderDestination newDestination = new OrderDestination(target);
 
         // 큐에 새로운 주문 추가
         orderQueue.Enqueue(newOrder);
         destinationQueue.Enqueue(newDestination);
 
-        Debug.Log($"주문 추가됨: {newOrder.foodMenu.name}, 수량: {newOrder.count}, 주문 위치 : {target.gameObject.name}");
+        Debug.Log($"주문 추가됨: {newOrder.foodMenu.name}, 수량: {newOrder.count}, 주문 위치 : {target.gameObject.name}, 주문 손님 : {guest}");
     }
 
     public void FoodReceived(bool isReceived)
