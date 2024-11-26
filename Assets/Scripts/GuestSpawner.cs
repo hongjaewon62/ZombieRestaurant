@@ -11,7 +11,8 @@ public class GuestSpawner : MonoBehaviour
     public int currentGuest = 0;
 
     [SerializeField]
-    private float cooldown = 3f;
+    private float maxCooldown = 7f;
+    private float minCooldown = 3f;
 
     private void Start()
     {
@@ -36,7 +37,7 @@ public class GuestSpawner : MonoBehaviour
             if(currentGuest < maxGuest)
             {
                 SpawnObject();
-                yield return new WaitForSeconds(cooldown); // ÄðÅ¸ÀÓ ´ë±â
+                yield return new WaitForSeconds(Random.Range(minCooldown, maxCooldown)); // ÄðÅ¸ÀÓ ´ë±â
             }
             else
             {

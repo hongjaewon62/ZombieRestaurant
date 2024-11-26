@@ -164,6 +164,7 @@ public class ZombieController : MonoBehaviour
             targetOrder.isActive = true;
             StartCoroutine(TakeOrder());
             CheckOrderQueue();
+            // 조리하러 갈 때 주문받으러 가는것 수정할 것
         }
 
         if(other.CompareTag("Cooking") && isCooking)

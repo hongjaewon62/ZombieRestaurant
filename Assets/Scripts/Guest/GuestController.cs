@@ -111,6 +111,11 @@ public class GuestController : MonoBehaviour
                     targetCounter[i].isActive = true;
                     return;
                 }
+                else
+                {
+                    currentDestinationIndex = destination.Length - 1;
+                    SetNextDestination();
+                }
             }
         }
     }
