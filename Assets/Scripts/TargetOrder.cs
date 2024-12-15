@@ -40,7 +40,9 @@ public class TargetOrder : MonoBehaviour
 
         if(other.CompareTag("Zombie") && zombie.isFood)
         {
+            // 음식 전달
             targetCounter.isReady = false;
+            zombie.GiveFood();
         }
     }
 
@@ -49,7 +51,6 @@ public class TargetOrder : MonoBehaviour
         if (other.CompareTag("Zombie"))
         {
             isActive = false;
-            isFood = false;
         }
     }
 }

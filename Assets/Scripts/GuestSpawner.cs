@@ -14,6 +14,9 @@ public class GuestSpawner : MonoBehaviour
     private float maxCooldown = 7f;
     private float minCooldown = 3f;
 
+    [SerializeField]
+    private GameObject parent;
+
     private void Start()
     {
         StartCoroutine(SpawnGuests());
@@ -26,7 +29,7 @@ public class GuestSpawner : MonoBehaviour
 
     private void SpawnObject()
     {
-        Instantiate(guest, gameObject.transform.position, Quaternion.identity);
+        Instantiate(guest, gameObject.transform.position, Quaternion.identity, parent.transform);
         currentGuest++;
     }
 

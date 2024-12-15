@@ -20,5 +20,14 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         moneyText.text = money.ToString();
+
+        if (Input.GetKey(KeyCode.Q))
+        {
+            Time.timeScale = 2.5f;  // 2¹è¼Ó
+        }
+        else if (Input.GetKey(KeyCode.W))
+        {
+            Time.timeScale = 1f;  
+        }
     }
 }

@@ -31,6 +31,16 @@ public class OrderManager : MonoBehaviour
         }
     }
 
+    public struct GuestQueue
+    {   // 주문 한 게스트의 정보를 담고 있는 큐
+        public GuestController guest;
+
+        public GuestQueue(GuestController guest)
+        {
+            this.guest = guest;
+        }
+    }
+
     public static OrderManager instance;
 
     public Menu[] foodMenu;
@@ -41,6 +51,7 @@ public class OrderManager : MonoBehaviour
     private Queue<MenuOrder> orderQueue = new Queue<MenuOrder>();
     private Queue<MenuOrder> tempOrderQueue = new Queue<MenuOrder>();
     private Queue<OrderDestination> destinationQueue = new Queue<OrderDestination>();
+    private Queue<GuestQueue> geustQueue = new Queue<GuestQueue>();
 
     private void Awake()
     {
@@ -68,6 +79,14 @@ public class OrderManager : MonoBehaviour
         destinationQueue.Enqueue(newDestination);
 
         Debug.Log($"주문 추가됨: {newOrder.foodMenu.name}, 수량: {newOrder.count}, 주문 위치 : {target.gameObject.name}, 주문 손님 : {guest}");
+    }
+
+    public void AddGuest(GuestController guest)
+    {
+        GuestQueue newGuest = new GuestQueue(guest);
+        geustQueue.Enqueue(newGuest);
+        Debug.Log($"게스트 추가됨: {newGuest.guest.name}");
+
     }
 
     public void FoodReceived(bool isReceived)
@@ -121,5 +140,10 @@ public class OrderManager : MonoBehaviour
     public Queue<OrderDestination> GetOrderDestinationQueue()         // 큐 게터
     {
         return destinationQueue; // 큐를 반환
+    }
+
+    public Queue<GuestQueue> GetGuestQueue()
+    {
+        return geustQueue;
     }
 }

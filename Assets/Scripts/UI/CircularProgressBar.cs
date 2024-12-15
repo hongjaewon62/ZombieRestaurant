@@ -15,6 +15,7 @@ public class CircularProgressBar : MonoBehaviour
     private void OnDisable()
     {
         time = 0f;
+        fill.fillAmount = time;
     }
 
     private void Update()

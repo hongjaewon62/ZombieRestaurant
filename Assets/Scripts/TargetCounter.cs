@@ -14,9 +14,21 @@ public class TargetCounter : MonoBehaviour
     private GuestController guest;
 
 
-    private void Awake()
+    private void Update()
     {
-
+        if(transform.childCount == 0)
+        {
+            return;
+        }
+        // trigger 영역 밖으로 나가지 않으면 주문 실행되지 않는 오류 해결
+        if (isReady)
+        {
+            transform.GetChild(0).GetComponent<BoxCollider>().enabled = true;
+        }
+        else
+        {
+            transform.GetChild(0).GetComponent<BoxCollider>().enabled = false;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -52,8 +64,11 @@ public class TargetCounter : MonoBehaviour
             }
         }
 
-        if(other.CompareTag("Guest") && isFood)
+        if(other.CompareTag("Guest") && guest.isFoodReceived && gameObject.tag == "Counter")
         {
+            isActive = false;
+            isReady = false;
+            isFood = false;
             guest.GoHome();
         }
     }

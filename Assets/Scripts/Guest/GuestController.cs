@@ -34,6 +34,8 @@ public class GuestController : MonoBehaviour
     private TextMeshProUGUI menuCountText;
     private int count = 0;
 
+    //private GameObject[] appearance;      // 생김새 오브젝트
+
     Quaternion targetRotation = Quaternion.Euler(0, 180, 0);            // 주문할 바라볼 곳 위치
 
     private void Awake()
@@ -45,6 +47,7 @@ public class GuestController : MonoBehaviour
 
     private void OnEnable()
     {
+        Debug.Log("count" + gameObject.transform.childCount);
         targetParent = GameObject.FindWithTag("TargetParent");
         for (int i = 0; i < destination.Length; i++)
         {
@@ -52,6 +55,19 @@ public class GuestController : MonoBehaviour
 
             destination[i] = child;
         }
+
+
+       // 널 오류로 보류
+       //appearance[0] = transform.GetChild(0).gameObject;
+       // Debug.Log(gameObject.transform.GetChild(0).name);
+
+    //    for (int i = 0; i < 9; i++)
+    //    {
+    //        GameObject child = gameObject.transform.GetChild(i).gameObject;
+    //        appearance[i] = child;
+    //    }
+
+    //    appearance[Random.Range(0, 8)].gameObject.SetActive(true);
     }
 
     private void Start()
@@ -151,6 +167,7 @@ public class GuestController : MonoBehaviour
     public void GoHome()
     {
         isFoodReceived = true;
+        isReady = false;
         menuImage.SetActive(false);
         agent.isStopped = false;
         anim.SetBool("Idle", false);

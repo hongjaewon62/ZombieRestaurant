@@ -402,7 +402,7 @@ GameObject:
   - component: {fileID: 28947488}
   m_Layer: 0
   m_Name: EndPoint
-  m_TagString: Untagged
+  m_TagString: End
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12816,9 +12816,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   guest: {fileID: 1908032713390326890, guid: 35b192592ef8f054cba325a60a3d8e50, type: 3}
-  maxGuest: 2
+  maxGuest: 4
   currentGuest: 0
-  cooldown: 3
+  maxCooldown: 7
+  parent: {fileID: 1505810129}
 --- !u!4 &930080686
 Transform:
   m_ObjectHideFlags: 0
@@ -13546,7 +13547,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!82 &980427762
 AudioSource:
   m_ObjectHideFlags: 0
@@ -27536,6 +27537,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3894477639976849401, guid: 35b192592ef8f054cba325a60a3d8e50, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4465003164664506575, guid: 35b192592ef8f054cba325a60a3d8e50, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6283184895895670927, guid: 35b192592ef8f054cba325a60a3d8e50, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6324980479950331530, guid: 35b192592ef8f054cba325a60a3d8e50, type: 3}

@@ -17,9 +17,9 @@ public class ZombieController : MonoBehaviour
     private bool isCooking;
     public bool isFood;
 
-    private Transform tempDestination;
+    private Transform tempDestination;          // 음식을 갖다줘야할 장소
 
-    private Transform destination;
+    private Transform destination;              // 주문을 받을 위치
     private TargetOrder targetOrder;
 
     [SerializeField]
@@ -34,6 +34,7 @@ public class ZombieController : MonoBehaviour
     private Queue<OrderManager.OrderDestination> destinations;
     private Queue<OrderManager.MenuOrder> guestOrders;
     private Queue<OrderManager.MenuOrder> orders;
+    private Queue<OrderManager.GuestQueue> guest;
 
     [SerializeField]
     private GameObject progressBar;
@@ -106,8 +107,12 @@ public class ZombieController : MonoBehaviour
         if (destination != null)
         {
             //tempDestination = destination;
-            agent.SetDestination(destination.position);
-            Debug.Log("주문");
+            if(!isCooking)
+            {
+                agent.SetDestination(destination.position);
+                Move();
+                Debug.Log("주문");
+            }
         }
 
         //TakeOrder();                                        // 주문
@@ -120,10 +125,12 @@ public class ZombieController : MonoBehaviour
             Stop();
             yield return new WaitForSeconds(0.5f);
             ProgressBar(orderTime);
+            isOrdering = true;
             yield return new WaitForSeconds(orderTime);
             AddGuestOrder();
             OrderManager.instance.GetNextOrderDestination();
             Debug.Log("주문 수 : " +  destinations.Count);
+            isOrdering = false;
             MoveDestination();
         }
         yield return null;
@@ -154,12 +161,16 @@ public class ZombieController : MonoBehaviour
         Debug.Log(menuIndex +", " + firstOrder.count + ", " + firstOrder.destination);
 
         OrderManager.instance.AddOrder(menuIndex, firstOrder.count, firstOrder.destination, firstOrder.guest);
+        guest = OrderManager.instance.GetGuestQueue();
+        OrderManager.instance.AddGuest(firstOrder.guest);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Counter") && !isCooking)
+        // 주문
+        if (other.CompareTag("Counter") && !isCooking && targetOrder.GetComponentInParent<TargetCounter>().isActive)
         {
+            Debug.Log("dest : " + destinations.Count);
             Debug.Log("충돌");
             targetOrder.isActive = true;
             StartCoroutine(TakeOrder());
@@ -167,6 +178,7 @@ public class ZombieController : MonoBehaviour
             // 조리하러 갈 때 주문받으러 가는것 수정할 것
         }
 
+        // 조리
         if(other.CompareTag("Cooking") && isCooking)
         {
             tempTargetCooking = other.gameObject.GetComponent<TargetCooking>();
@@ -220,19 +232,27 @@ public class ZombieController : MonoBehaviour
         Move();
         agent.SetDestination(tempDestination.GetChild(0).position);         // 주문 받은 곳으로 이동
         isFood = true;
-        if (agent.remainingDistance <= agent.stoppingDistance && !agent.pathPending)
-        {
-            GiveFood();
-        }
+        //if (agent.remainingDistance <= agent.stoppingDistance && !agent.pathPending)
+        //{
+        //    GiveFood();
+        //}
 
         isCooking = false;
     }
 
-    private void GiveFood()
+    public void GiveFood()
     {
-        OrderManager.instance.FoodReceived(true);
+        OrderManager.GuestQueue receiveGuest = guest.Dequeue();
+        GuestController guestControoler = receiveGuest.guest;
+        guestControoler.isFoodReceived = true;
+        //guestController.isFoodReceived = true;
+        //OrderManager.instance.FoodReceived(true);
         isCooking = false;
         isFood = false;
+        Stop();
+        //destination = null;
+        //tempDestination = null;
+
         OrderManager.instance.GetNextOrder();
     }
 
