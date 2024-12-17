@@ -9,13 +9,15 @@ public class ZombieController : MonoBehaviour
     private NavMeshAgent agent;
     private Animator anim;
 
-    private float moveSpeed = 2f;
+    public float moveSpeed = 2f;
     private float orderTime = 2f;
 
     private bool isWorking;
     private bool isOrdering;
     private bool isCooking;
     public bool isFood;
+
+    private Collider orderCollider;
 
     private Transform tempDestination;          // 음식을 갖다줘야할 장소
 
@@ -170,6 +172,7 @@ public class ZombieController : MonoBehaviour
         // 주문
         if (other.CompareTag("Counter") && !isCooking && targetOrder.GetComponentInParent<TargetCounter>().isActive)
         {
+            orderCollider = other;
             Debug.Log("dest : " + destinations.Count);
             Debug.Log("충돌");
             targetOrder.isActive = true;
@@ -249,6 +252,7 @@ public class ZombieController : MonoBehaviour
         //OrderManager.instance.FoodReceived(true);
         isCooking = false;
         isFood = false;
+        orderCollider.gameObject.GetComponent<TargetOrder>().isActive = false;
         Stop();
         //destination = null;
         //tempDestination = null;

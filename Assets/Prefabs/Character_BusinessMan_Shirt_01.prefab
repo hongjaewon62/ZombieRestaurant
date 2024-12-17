@@ -1749,7 +1749,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5331622363514108773
 Transform:
   m_ObjectHideFlags: 0
@@ -3325,6 +3325,10 @@ PrefabInstance:
     - target: {fileID: 1668935801796468767, guid: 67a70f81f74e5ab4b9186f602024e926, type: 3}
       propertyPath: m_Name
       value: MenuBread
+      objectReference: {fileID: 0}
+    - target: {fileID: 1668935801796468767, guid: 67a70f81f74e5ab4b9186f602024e926, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3423340103018790709, guid: 67a70f81f74e5ab4b9186f602024e926, type: 3}
       propertyPath: m_LocalPosition.x

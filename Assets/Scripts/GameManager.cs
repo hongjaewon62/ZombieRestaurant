@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     public int money = 0;
+    public int moneyPower = 1;
 
     [SerializeField]
     private TextMeshProUGUI moneyText;
@@ -23,11 +24,16 @@ public class GameManager : MonoBehaviour
 
         if (Input.GetKey(KeyCode.Q))
         {
-            Time.timeScale = 2.5f;  // 2배속
+            Time.timeScale = 7.5f;  // 2배속
         }
         else if (Input.GetKey(KeyCode.W))
         {
             Time.timeScale = 1f;  
         }
+    }
+
+    public void GiveMoney(int money)
+    {
+        this.money += money * moneyPower;
     }
 }

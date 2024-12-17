@@ -30,11 +30,13 @@ public class GuestController : MonoBehaviour
     [SerializeField]
     private GameObject menuImage;
 
+    private int menuIndex = 0;
+
     [SerializeField]
     private TextMeshProUGUI menuCountText;
     private int count = 0;
 
-    //private GameObject[] appearance;      // 생김새 오브젝트
+    private GameObject[] appearance;      // 생김새 오브젝트       널 오류로 new로 초기화
 
     Quaternion targetRotation = Quaternion.Euler(0, 180, 0);            // 주문할 바라볼 곳 위치
 
@@ -49,6 +51,7 @@ public class GuestController : MonoBehaviour
     {
         Debug.Log("count" + gameObject.transform.childCount);
         targetParent = GameObject.FindWithTag("TargetParent");
+        appearance = new GameObject[gameObject.transform.childCount - 2]; // 배열 초기화
         for (int i = 0; i < destination.Length; i++)
         {
             GameObject child = targetParent.transform.GetChild(i).gameObject;
@@ -56,18 +59,13 @@ public class GuestController : MonoBehaviour
             destination[i] = child;
         }
 
+        for (int i = 0; i < 9; i++)
+        {
+            GameObject child = gameObject.transform.GetChild(i).gameObject;
+            appearance[i] = child;
+        }
 
-       // 널 오류로 보류
-       //appearance[0] = transform.GetChild(0).gameObject;
-       // Debug.Log(gameObject.transform.GetChild(0).name);
-
-    //    for (int i = 0; i < 9; i++)
-    //    {
-    //        GameObject child = gameObject.transform.GetChild(i).gameObject;
-    //        appearance[i] = child;
-    //    }
-
-    //    appearance[Random.Range(0, 8)].gameObject.SetActive(true);
+        appearance[Random.Range(0, 8)].gameObject.SetActive(true);
     }
 
     private void Start()
@@ -83,7 +81,7 @@ public class GuestController : MonoBehaviour
 
     private void Update()
     {
-        if(agent.isStopped && gameObject.transform.rotation != targetRotation)
+        if (agent.isStopped && gameObject.transform.rotation != targetRotation)
         {
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
             Debug.Log("실행");
@@ -92,7 +90,7 @@ public class GuestController : MonoBehaviour
         if (isFoodReceived && !isMovingToDestination && !agent.pathPending)
         {
             isMovingToDestination = true;
-            GameManager.instance.money += 100;                  // 재화 추가
+            GameManager.instance.GiveMoney(100);                  // 재화 추가
             //currentDestinationIndex = targetCounter.Length - 1;
             SetNextDestination();
         }
@@ -152,10 +150,11 @@ public class GuestController : MonoBehaviour
         if (agent.isStopped)                                                // 멈췄다면 주문
         {
 
-            int menuIndex = Random.Range(0, OrderManager.instance.activeMenuCount);
+            menuIndex = Random.Range(0, OrderManager.instance.activeMenuCount);
             count = Random.Range(1, 2);                                     // 주문 개수(나중에 더 많이 구매하도록 수정)
             OrderManager.instance.GuestOrder(menuIndex, count, destination[currentDestinationIndex].transform, guestController);
             menuImage.SetActive(true);
+            menuImage.transform.GetChild(menuIndex).gameObject.SetActive(true);
             menuCountText.text = count.ToString();
             isReady = true;
             // 주문
@@ -168,6 +167,7 @@ public class GuestController : MonoBehaviour
     {
         isFoodReceived = true;
         isReady = false;
+        menuImage.transform.GetChild(menuIndex).gameObject.SetActive(false);
         menuImage.SetActive(false);
         agent.isStopped = false;
         anim.SetBool("Idle", false);
