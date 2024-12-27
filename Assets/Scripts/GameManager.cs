@@ -22,14 +22,14 @@ public class GameManager : MonoBehaviour
     {
         moneyText.text = money.ToString();
 
-        if (Input.GetKey(KeyCode.Q))
-        {
-            Time.timeScale = 7.5f;  // 2배속
-        }
-        else if (Input.GetKey(KeyCode.W))
-        {
-            Time.timeScale = 1f;  
-        }
+        //if (Input.GetKey(KeyCode.Q))
+        //{
+        //    Time.timeScale = 7.5f;  // 2배속
+        //}
+        //else if (Input.GetKey(KeyCode.W))
+        //{
+        //    Time.timeScale = 1f;  
+        //}
     }
 
     public void GiveMoney(int money)
